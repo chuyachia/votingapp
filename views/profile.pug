@@ -1,0 +1,44 @@
+html
+head
+  script(src='https://code.jquery.com/jquery-2.2.1.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+  script(src='/controllers/createPoll.client.js')
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+  link(rel='stylesheet', href='/public/main.css')
+  
+  title= user+"'s Profile"
+body
+  a(class='button' href='/')
+    span(class="glyphicon glyphicon-home" aria-hidden="true")
+  div(class='container center-container')
+    h2= 'Your polls'
+      each url, title in polls_dict
+        a(class='button btn btn-block' href='/poll/'+url) #{title}
+
+
+    button(type= "button" class= "btn btn-info btn-block" data-toggle="modal" data-target="#pollmodal") Create a new poll
+
+    div(class="modal fade" id="pollmodal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true")
+      div(class="modal-dialog" role="document")
+        div(class="modal-content")
+          div(class="modal-header")
+            h5(class="modal-title" id="ModalLabel") New poll
+          div(class="modal-body")
+            form(id ='createpoll' action = action method = 'post')
+              div(class="form-group")
+                label(for="pollTitle" class="col-form-label") Title:
+                input(type="text" class="form-control" name="pollTitle" maxlength="50" required)
+              div(class="form-group")
+                label(for="pollDescription" class="col-form-label" ) Description:
+                textarea(class="form-control" name="pollDescription" maxlength="300" required)
+              label(for="option1" class="control-label") Options:
+              div(class="entry input-group")
+                input(class="form-control" name="option1" type="text" maxlength="20" required)
+                span(class="input-group-btn")
+                  button(class="btn btn-success btn-add" type="button")
+                    span(class="glyphicon glyphicon-plus" aria-hidden="true")
+              br  
+              button(type="button" class="btn btn-secondary" data-dismiss="modal") Cancel
+              button(type="submit" class="btn btn-info" id="create") Create
+
+   

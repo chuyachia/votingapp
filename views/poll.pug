@@ -1,0 +1,32 @@
+html
+head
+  script(src='https://code.jquery.com/jquery-2.2.1.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js")
+  script(type='text/javascript').                                                  
+    var pug_data =!{JSON.stringify(results)};   
+  script(src="/controllers/plotPoll.client.js")
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+  link(rel='stylesheet', href='/public/main.css')
+  title= title
+
+body
+  a(class='button' href='/')
+    span(class="glyphicon glyphicon-home" aria-hidden="true")
+  div(class='container center-container')
+    p(id="warning")= state
+    h2= title
+    p= message
+    form(id ='submitvote' action = action method = 'post')
+      div
+        each val,index in options
+          label(class="radio-inline")
+            input(type='radio' value=index name="choice")
+            p=val
+        div(class="radio-inline")
+          input(type="radio" value='-1' name="choice")
+          input(type="text" name="addoption" maxlength="20" class="form-control")
+          
+      div
+        button(type='submit' class='button btn btn-info') Vote for it
+    canvas(id="myChart")
