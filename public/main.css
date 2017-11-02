@@ -1,0 +1,34 @@
+body {
+  padding:10px
+}
+
+header {
+  text-align: right;
+}
+
+.entry{
+  margin-bottom:5px
+}
+.glyphicon{
+  font-size: 20px;
+}
+
+.glyphicon-home {
+  color:#888888
+}
+
+#myChart {
+  width: 50%;
+}
+p#warning{
+  font-style: italic;
+}
+.center-container {
+  width:50%;
+  box-shadow: 10px 10px 2px #888888;
+  border:1px solid  rgb(204,204,204);
+  padding:10px
+}
+
+
+
