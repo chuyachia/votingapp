@@ -1,5 +1,5 @@
 'use strict'
-
+//TODO: sort votes on index.html by trending (most voted) and latest
 var Users = require(process.cwd()+'/app/models/users.js');
 
 function pollHandler(){
@@ -9,16 +9,37 @@ function pollHandler(){
       var state = state||null;
       if (req.query.state == 'voted'&!state) {
         state = 'You already voted on this one'
-      }    
+      }
       result.polls[0].options.forEach(function(option){results_dict[option.optionname] = option.vote.length});
       res.render('poll',{ title: result.polls[0].title, message: result.polls[0].description, state:state,
-                         action:'/poll/'+req.params.pollid,
+                         action:'/poll/'+req.params.pollid,authorized:req.isAuthenticated(),
                          options:result.polls[0].options.map(function(x){return x.optionname;}),
                         results:results_dict})
   }
   
-  this.getAllPolls= function(req,res){   
-    Users.find({},{'polls.title':1,'polls.description':1,'polls._id':1})
+  this.getAllPolls= function(req,res){
+    
+    Users.aggregate([{$unwind:'$polls'},{$unwind:'$polls.options'},
+                    {$project:{"polls._id":1,'polls.title':1,'polls.description':1,'polls._id':1,
+                               votecount:{$size:"$polls.options.vote"}}},
+                    {$group:{_id:"$polls._id",title:{$first: '$polls.title'},
+                             description:{$first: '$polls.description'},
+                             totalvote:{$sum:"$votecount"}}},
+                    {$sort:{"totalvote":-1}}])
+          .exec(function(err,result){
+          if (err) throw err;
+          var returnObj = {};
+          returnObj['allpolls'] = result;
+          if (req.isAuthenticated()){
+            returnObj['user'] = req.user.github
+            res.json(returnObj)
+          } else {
+            returnObj['user'] = null
+            res.json(returnObj)
+          }
+          })
+    
+  /*  Users.find({},{'polls.title':1,'polls.description':1,'polls._id':1})
           .exec(function(err,result){
           if (err) throw err;
           var returnObj = {};
@@ -30,7 +51,7 @@ function pollHandler(){
             returnObj['user'] = null
             res.json(returnObj)
           }
-    })
+    })*/
   }
   
   this.getPollDetails = function(req,res){  
@@ -57,8 +78,7 @@ function pollHandler(){
         var update = {}
         var ip = req.headers['x-forwarded-for'];
         ip = ip.split(',')[0];
-        // add option should only be open to loggedin user
-        if (req.body.choice=="-1" && req.body.addoption) {
+        if (req.body.choice=="-1" && req.body.addoption && req.isAuthenticated()) {
           update['optionname'] = req.body.addoption;
           update['vote'] = [ip]   
           Users.findOne({'polls._id':req.params.pollid},{'polls.$.options':1})
@@ -114,13 +134,21 @@ function pollHandler(){
           .exec(function(err,result){
         if (err) throw err;
         var user = req.user.github.displayName||req.user.github.username
-        console.log(user);
         var polls_dict = {}
         result.polls.forEach(function(poll){polls_dict[poll.title]=poll._id})
-       res.render('profile',{user:user,polls_dict:polls_dict,action:'/newpoll'})
+        res.render('profile',{user:user,
+                             polls_dict:polls_dict,
+                             action:'/newpoll'})
     })
   }
-  this.deleteOwnPoll
+  
+  this.deleteOwnPoll = function(req,res,next){
+   Users.findOneAndUpdate({'github.id':req.user.github.id}, { $pull: { polls: { _id: req.body.pollid} }},{new:true})
+        .exec(function(err,result){
+         if (err) throw err;
+           res.json('Deleted')
+      })
+  }
 
 }
 

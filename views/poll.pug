@@ -7,8 +7,10 @@ head
     var pug_data =!{JSON.stringify(results)};   
   script(src="/controllers/plotPoll.client.js")
   link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+  link(href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet")
+  link(href="https://fonts.googleapis.com/css?family=Prata" rel="stylesheet")
   link(rel='stylesheet', href='/public/main.css')
-  title= title
+  title= 'VotingApp - '+title
 
 body
   a(class='button' href='/')
@@ -23,10 +25,11 @@ body
           label(class="radio-inline")
             input(type='radio' value=index name="choice")
             p=val
-        div(class="radio-inline")
-          input(type="radio" value='-1' name="choice")
-          input(type="text" name="addoption" maxlength="20" class="form-control")
-          
-      div
-        button(type='submit' class='button btn btn-info') Vote for it
-    canvas(id="myChart")
+        if authorized
+          div(class="radio-inline")
+            input(type="radio" value='-1' name="choice")
+            input(type="text" name="addoption" maxlength="30" class="form-control")
+        div
+          button(type='submit' class='button btn btn-info') Vote for it
+    div(id='can')
+      canvas(id="myChart")
