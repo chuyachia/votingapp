@@ -1,8 +1,10 @@
+'use strict';
+
 $(function()
 {
 console.log(pug_data);
 var ctx= $("#myChart")[0].getContext('2d');
-// randomly generate colors according to the length of pug_data 
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';

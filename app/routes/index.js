@@ -1,4 +1,5 @@
 'use strict'
+
 var PollHandler = require(process.cwd()+ '/app/controllers/pollHandler.server.js');
 
 module.exports = function(app,passport){
@@ -33,7 +34,7 @@ module.exports = function(app,passport){
   app.route('/auth/github/callback')
 	.get(passport.authenticate('github', {
 		successRedirect: '/',
-		failureRedirect: '/' //user can potentially add an user object to req manually and access profile.pub illegally?
+		failureRedirect: '/' 
 	}));
   
   app.route('/logout')
@@ -48,7 +49,7 @@ module.exports = function(app,passport){
   app.route('/newpoll')
     .post(isLoggedIn,pollHandler.createPoll);
   
-  //app.route('/newoption')
-    //.post(isLoggedIn,pollHandler.addOption)
-  
+  app.route('/delete')
+    .post(isLoggedIn,pollHandler.deleteOwnPoll);
+
 };
