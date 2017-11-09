@@ -7,6 +7,9 @@ body {
 h2, h5, a,button, label,form , .note {
      font-family: 'Open Sans';
 }
+a,button {
+  margin-right:10px
+}
 .note {
   font-size:12px
 }
@@ -15,11 +18,16 @@ h2, h5, a,button, label,form , .note {
 header {
   text-align: right;
 }
-
+#sort{
+  text-align: right;
+}
 .entry{
   margin-bottom:5px
 }
-
+#addpoll {
+  border: 2px dotted #888888;
+  padding-bottom:10px;
+}
 .radio-inline, .radio {
   margin-left:10px;
   margin-bottom:5px  
@@ -35,7 +43,7 @@ header {
   color:#888888
 }
 #can {
-  width:60%;
+  width:50%;
   padding-left: 0;
   padding-right: 0;
   margin-left: auto;
@@ -47,7 +55,7 @@ p#warning{
   font-style: italic;
 }
 .center-container {
-  width:50%;
+  width:70%;
   box-shadow: 10px 10px 2px #888888;
   border:1px solid  rgb(204,204,204);
   padding:10px

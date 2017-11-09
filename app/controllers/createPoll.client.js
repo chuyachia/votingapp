@@ -22,6 +22,7 @@ $(function()
 		e.preventDefault();
 		return false;
 	});
+  
    $(".delete").on('click',function(e){
      e.preventDefault();
      var result = confirm("Are you sure you want to delete this poll?");
