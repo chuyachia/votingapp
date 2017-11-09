@@ -1,31 +1,45 @@
-
 html
   head
     script(src='https://code.jquery.com/jquery-2.2.1.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js')
     script(src='/controllers/createPoll.client.js')
+    script(src= '/controllers/displayPolls.client.js')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
     link(href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet")
     link(href="https://fonts.googleapis.com/css?family=Prata" rel="stylesheet")
     link(rel='stylesheet', href='/public/main.css')
-
-    title= 'VotingApp - '+user+"'s Profile"
+    title VotingApp - create a poll or cast a vote
   body
-    a(class='button' href='/')
-      span(class="glyphicon glyphicon-home" aria-hidden="true")
-    div(class='container center-container')
-      h2= 'Your polls'
-        each url, title in polls_dict
-          div(class="input-group")
-            a(class='button btn btn-block' href='/poll/'+url) #{title}
-            span(class="input-group-btn")
-              a(class="btn delete" id=url)
-                span(class="glyphicon glyphicon-remove" aria-hidden="true")
-
-
-      button(type= "button" class= "btn btn-info btn-block" data-toggle="modal" data-target="#pollmodal") Create a new poll
-
-
+    header
+      if authorized
+        a(role="button" class="btn" href="/profile") Profile
+        a(href="/logout" role="button" class="btn") Logout
+      else
+        a(href="/auth/github" role="button" class="btn") Login with Github
+    div(class="container")
+      h2= "Welcome, "+user
+      div(class="button dropdown note" id="sort") Sort by : 
+        select(id="sortselector")
+          option(value="trending" selected) Trending
+          option(value="random") Random
+      div(class= "row" id= "allpolls")
+        each poll,index in polls_arr
+          div(class="col-md-4 col-sm-4 col-xs-6" id = index)
+            h2= poll.title
+            p= poll.description
+            a(role="button" href="/poll/"+poll._id) View
+            p(class="note")= poll.totalvote+' people voted on this'
+        div(class="col-md-4 col-sm-4 col-xs-6" id= "addpoll")
+          h2 Your poll here
+          p= message          
+          if authorized
+            button(type= "button" class= "btn btn-default btn-lg" data-toggle="modal" data-target="#pollmodal")
+              span(class="glyphicon glyphicon-plus" aria-hidden="true")
+              span Add poll
+          else       
+            button(type= "button" class= "btn btn-default btn-lg" id = 'unlogged')
+              span(class="glyphicon glyphicon-plus" aria-hidden="true")
+              span Add poll
       div(class="modal fade" id="pollmodal" tabindex="-1" role="dialog" aria-hidden="true")
         div(class="modal-dialog" role="document")
           div(class="modal-content")
@@ -48,5 +62,3 @@ html
                 br  
                 button(type="button" class="btn btn-secondary" data-dismiss="modal") Cancel
                 button(type="submit" class="btn btn-info" id="create") Create
-
-   

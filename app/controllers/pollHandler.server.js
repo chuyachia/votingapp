@@ -1,5 +1,5 @@
 'use strict'
-//TODO: sort votes on index.html by trending (most voted) and latest
+
 var Users = require(process.cwd()+'/app/models/users.js');
 
 function pollHandler(){
@@ -17,42 +17,42 @@ function pollHandler(){
                         results:results_dict})
   }
   
-  this.getAllPolls= function(req,res){
-    
-    Users.aggregate([{$unwind:'$polls'},{$unwind:'$polls.options'},
-                    {$project:{"polls._id":1,'polls.title':1,'polls.description':1,'polls._id':1,
-                               votecount:{$size:"$polls.options.vote"}}},
-                    {$group:{_id:"$polls._id",title:{$first: '$polls.title'},
-                             description:{$first: '$polls.description'},
-                             totalvote:{$sum:"$votecount"}}},
-                    {$sort:{"totalvote":-1}}])
-          .exec(function(err,result){
-          if (err) throw err;
-          var returnObj = {};
-          returnObj['allpolls'] = result;
-          if (req.isAuthenticated()){
-            returnObj['user'] = req.user.github
-            res.json(returnObj)
-          } else {
-            returnObj['user'] = null
-            res.json(returnObj)
-          }
-          })
-    
-  /*  Users.find({},{'polls.title':1,'polls.description':1,'polls._id':1})
-          .exec(function(err,result){
-          if (err) throw err;
-          var returnObj = {};
-          returnObj['allpolls'] = result
-          if (req.isAuthenticated()){
-            returnObj['user'] = req.user.github
-            res.json(returnObj)
-          } else {
-            returnObj['user'] = null
-            res.json(returnObj)
-          }
-    })*/
+  var shuffleArray = function(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
   }
+  
+  this.getAllPolls = function(req,res) {
+    var data={}
+    if (req.isAuthenticated()) {
+      data['authorized'] =true
+      data['user'] =req.user.github.displayName||req.user.user.username;
+      data['message'] ="You can create your own poll now. By the way, you can also add options to others' polls."
+    } else {
+      data['authorized'] =false
+      data['user'] = "visitor"
+      data['message'] ="Login and create your own poll"
+    }
+    data['polls_arr'] = []
+    Users.aggregate([{$unwind:'$polls'},{$unwind:'$polls.options'},
+                {$project:{"polls._id":1,'polls.title':1,'polls.description':1,'polls._id':1,
+                           votecount:{$size:"$polls.options.vote"}}},
+                {$group:{_id:"$polls._id",title:{$first: '$polls.title'},
+                         description:{$first: '$polls.description'},
+                         totalvote:{$sum:"$votecount"}}},
+                {$sort:{"totalvote":-1}}])
+    .exec(function(err,result){
+      if (err) throw err;
+      console.log(result)
+      data['polls_arr'] = result
+      res.render('index',data)   
+    })
+  }
+  
   
   this.getPollDetails = function(req,res){  
    Users.findOne({'polls._id':req.params.pollid},{'polls.$':1})
@@ -65,7 +65,7 @@ function pollHandler(){
   this.checkIP = function(req,res,next){
     var ip = req.headers['x-forwarded-for'];
     ip = ip.split(',')[0];
-    Users.findOne({polls:{$elemMatch:{_id:req.params.pollid,'options.vote':'ip'}}}) //
+    Users.findOne({polls:{$elemMatch:{_id:req.params.pollid,'options.vote':ip}}}) //
           .exec(function(err,result){
          if (err) throw err;
          if (result) {res.redirect('/poll/'+req.params.pollid+'?state=voted')}  else {
@@ -124,7 +124,7 @@ function pollHandler(){
     Users.findOneAndUpdate({'github.id':req.user.github.id},{$push:{polls:newpoll}},{new:true})
           .exec(function(err,result){
           if (err) throw err;
-          res.redirect('/profile')
+          res.redirect('back')
     })
 
   }
@@ -137,8 +137,7 @@ function pollHandler(){
         var polls_dict = {}
         result.polls.forEach(function(poll){polls_dict[poll.title]=poll._id})
         res.render('profile',{user:user,
-                             polls_dict:polls_dict,
-                             action:'/newpoll'})
+                             polls_dict:polls_dict})
     })
   }
   

@@ -13,14 +13,8 @@ module.exports = function(app,passport){
 		}
 	};
   
-  app.route('/')
-      .get(function(req,res){
-    res.sendFile(process.cwd() + '/public/index.html');
-  });
   
-  app.route('/allpolls')
-      .get(pollHandler.getAllPolls);
-  
+  app.route('/').get(pollHandler.getAllPolls)  
 
   app.route('/poll/:pollid')
       .get(pollHandler.getPollDetails)
