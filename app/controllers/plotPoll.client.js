@@ -2,7 +2,6 @@
 
 $(function()
 {
-console.log(pug_data);
 var ctx= $("#myChart")[0].getContext('2d');
 
 function getRandomColor() {
@@ -47,4 +46,6 @@ var chart = new Chart(ctx, {
 	}
 });
   
+
+
 })

@@ -1,33 +1,123 @@
 body {
-  padding:10px;
+  color:#17252a;
   font-family: 'Prata';
+  position:relative;
 }
 
-
-h2, h5, a,button, label,form , .note {
-     font-family: 'Open Sans';
+h2, h3, h5, a,button, label,form ,.note,header,footer {
+  font-family: 'Open Sans';
 }
+
+header{
+  padding-left:20px;
+  position:fixed;
+  top:0;
+  width:100%;
+  background-color:#17252a;
+  font-size:40px;
+  color:white;
+  text-align:center; 
+  z-index:5;
+  
+}
+.menu {
+  position:absolute;
+  right: 0;
+  display:inline-block;
+}
+
+.menutext{
+  color:#17252a;
+}
+
+#sort{
+  float:right
+}
+
+footer{
+  background-color:white;
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto;
+  width:100%;
+  text-align:center;
+}
+
+.content{
+  padding:50px 50px 10px 50px;
+  min-height: 100%;
+  position:relative;
+  z-index:1;
+}
+
+.container {
+  box-shadow: 10px 10px 2px #888888;
+  border:1px solid rgb(204,204,204);
+  margin-top:10px;
+  margin-bottom:10px;
+  padding-bottom:20px
+}
+
 a,button {
-  margin-right:10px
+  margin-right:10px;
 }
+.dropdown-toggle{
+  background-color:#17252a;
+}
+
+.btn-default, .btn-default:focus{
+  background-color:#17252a;
+  color:white;
+  border:1px solid #17252a;
+}
+
+.btn-default:hover, .btn-default:active{
+  background-color:white!important;
+  color:#17252a;
+  border:1px solid #17252a;
+}
+.greenbtn, .greenbtn:focus{
+  background-color:#3aafa9;
+  border:1px solid #2b7a78;
+}
+
+.whitebtn{
+  color:#17252a;
+  background-color:white;
+  margin-bottom:20px
+}
+
 .note {
   font-size:12px
 }
 
+.polldisplay {
+  min-height:30%;
+  overflow:hidden;
+}
 
-header {
-  text-align: right;
-}
-#sort{
-  text-align: right;
-}
-.entry{
-  margin-bottom:5px
-}
 #addpoll {
-  border: 2px dotted #888888;
+  background-color:#3aafa9;
+  box-shadow: 10px 10px 2px #888888;
+  color:white;
   padding-bottom:10px;
+  border:1px solid #2b7a78;
+  margin-bottom:10px
 }
+
+.crop {
+  overflow:hidden; 
+  white-space:nowrap; 
+  text-overflow:ellipsis; 
+}
+
+.entry{
+  margin-top:5px
+}
+
+
 .radio-inline, .radio {
   margin-left:10px;
   margin-bottom:5px  
@@ -36,14 +126,23 @@ header {
 .glyphicon{
   font-size: 20px;
 }
+  
 .glyphicon-remove {
   color:#d9534f
 }
 .glyphicon-home {
-  color:#888888
+  color:#17252a;
+  font-size: 30px;
+  float:left;
 }
-#can {
-  width:50%;
+
+.glyphicon-align-justify {
+  font-size: 30px;
+  margin:5px;
+}
+
+#containercanvas {
+  width:70%;
   padding-left: 0;
   padding-right: 0;
   margin-left: auto;
@@ -54,12 +153,7 @@ header {
 p#warning{
   font-style: italic;
 }
-.center-container {
-  width:70%;
-  box-shadow: 10px 10px 2px #888888;
-  border:1px solid  rgb(204,204,204);
-  padding:10px
-}
+
 
 
 

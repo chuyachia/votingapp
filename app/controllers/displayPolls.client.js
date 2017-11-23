@@ -1,6 +1,4 @@
 'use strict';
-//// https://stackoverflow.com/questions/5329201/jquery-move-elements-into-a-random-order
-//// https://stackoverflow.com/questions/21600802/jquery-sort-list-based-on-data-attribute-value
 
 jQuery.fn.shuffle = function () {
     var j;
@@ -26,4 +24,15 @@ $(document).ready(function(){
         $('#allpolls div').sort(sort_div).appendTo('#allpolls');
      }
    })
+  $(".showmore").on('click',function(){
+    $("#allpolls").children().removeClass("hidden");
+    $(this).addClass('hidden');
+    $(".showless").removeClass('hidden'); 
+  })
+  
+  $(".showless").on('click',function(){
+    $('#allpolls').children().not("#addpoll").slice(5).addClass("hidden");
+    $(this).addClass('hidden');
+    $(".showmore").removeClass('hidden'); 
+  }) 
 })
