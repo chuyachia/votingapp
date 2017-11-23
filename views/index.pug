@@ -10,27 +10,46 @@ html
     link(rel='stylesheet', href='/public/main.css')
     title VotingApp - create a poll or cast a vote
   body
-    header
-      if authorized
-        a(role="button" class="btn" href="/profile") Profile
-        a(href="/logout" role="button" class="btn") Logout
-      else
-        a(href="/auth/github" role="button" class="btn") Login with Github
-    div(class="container")
+    header The Voting App
+      div(class="dropdown menu")
+        button(class="btn dropdown-toggle" type="button" data-toggle="dropdown")
+          span(class="glyphicon glyphicon-align-justify")
+        ul(class="dropdown-menu dropdown-menu-right")
+          if authorized
+            li
+              a(href="/profile") Profile
+            li
+              a(href="/logout") Logout
+          else
+            li
+              a(href="/auth/github" ) Login with Github
+    div(class="content")
       h2= "Welcome, "+user
-      div(class="button dropdown note" id="sort") Sort by : 
-        select(id="sortselector")
-          option(value="trending" selected) Trending
-          option(value="random") Random
+      div(class="row")
+        div(class="button dropdown note " id="sort") Sort by : 
+          select(id="sortselector")
+            option(value="trending" selected) Trending
+            option(value="random") Random
       div(class= "row" id= "allpolls")
         each poll,index in polls_arr
-          div(class="col-md-4 col-sm-4 col-xs-6" id = index)
-            h2= poll.title
-            p= poll.description
-            a(role="button" href="/poll/"+poll._id) View
-            p(class="note")= poll.totalvote+' people voted on this'
-        div(class="col-md-4 col-sm-4 col-xs-6" id= "addpoll")
-          h2 Your poll here
+          if index < 5
+            div(class="col-sm-4 col-xs-12 polldisplay" id = index)
+              h3= poll.title
+              p(class="crop")= poll.description
+              a(role="button" class= "btn btn-default btn-lg" href="/poll/"+poll._id)
+                span(class="glyphicon glyphicon-search" aria-hidden="true")
+                span   View
+              p(class="note")= poll.totalvote+' people voted on this'
+          else
+            div(class="col-sm-4 col-xs-12 polldisplay hidden" id = index)
+              h3= poll.title
+              p(class="crop")= poll.description
+              a(role="button" class= "btn btn-default btn-lg" href="/poll/"+poll._id)
+                span(class="glyphicon glyphicon-search" aria-hidden="true")
+                span   View
+              p(class="note")= poll.totalvote+' people voted on this'
+        div(class="col-sm-4 col-xs-12 polldisplay" id= "addpoll")
+          h3 Your poll here
           p= message          
           if authorized
             button(type= "button" class= "btn btn-default btn-lg" data-toggle="modal" data-target="#pollmodal")
@@ -40,25 +59,35 @@ html
             button(type= "button" class= "btn btn-default btn-lg" id = 'unlogged')
               span(class="glyphicon glyphicon-plus" aria-hidden="true")
               span Add poll
-      div(class="modal fade" id="pollmodal" tabindex="-1" role="dialog" aria-hidden="true")
-        div(class="modal-dialog" role="document")
-          div(class="modal-content")
-            div(class="modal-header")
-              h5(class="modal-title") New poll
-            div(class="modal-body")
-              form(id ='createpoll' action = '/newpoll' method = 'post')
-                div(class="form-group")
-                  label(for="pollTitle" class="col-form-label") Title:
-                  input(type="text" class="form-control" name="pollTitle" maxlength="50" required)
-                div(class="form-group")
-                  label(for="pollDescription" class="col-form-label" ) Description:
-                  textarea(class="form-control" name="pollDescription" maxlength="300" required)
-                label(for="option1" class="control-label") Options:
-                div(class="entry input-group")
-                  input(class="form-control" name="option1" type="text" maxlength="30" required)
-                  span(class="input-group-btn")
-                    button(class="btn btn-success btn-add" type="button")
-                      span(class="glyphicon glyphicon-plus" aria-hidden="true")
-                br  
-                button(type="button" class="btn btn-secondary" data-dismiss="modal") Cancel
-                button(type="submit" class="btn btn-info" id="create") Create
+      div(class="row")
+        div(class='col-sm-4 col-sm-offset-4 col-xs-12')
+          a(role="button" class= "btn menutext showmore btn-default btn-lg btn-block whitebtn")
+            span Show more
+          a(role="button" class= "btn menutext showless hidden btn-default btn-lg btn-block whitebtn")
+            span Show less
+      footer Made by 
+        a(href="https://github.com/chuyachia" target="_blank") Chu-Ya Chia
+
+ 
+    div(class="modal fade" id="pollmodal" tabindex="-1" role="dialog" aria-hidden="true")
+      div(class="modal-dialog" role="document")
+        div(class="modal-content")
+          div(class="modal-header")
+            h5(class="modal-title") New poll
+          div(class="modal-body")
+            form(id ='createpoll' action = '/newpoll' method = 'post')
+              div(class="form-group")
+                label(for="pollTitle" class="col-form-label") Title:
+                input(type="text" class="form-control" name="pollTitle" maxlength="50" required)
+              div(class="form-group")
+                label(for="pollDescription" class="col-form-label" ) Description:
+                textarea(class="form-control" name="pollDescription" maxlength="300" required)
+              label(for="option1" class="control-label") Options:
+              div(class="entry input-group")
+                input(class="form-control" name="option1" type="text" maxlength="30" required)
+                span(class="input-group-btn")
+                  button(class="btn btn-success btn-add" type="button")
+                    span(class="glyphicon glyphicon-plus" aria-hidden="true")
+              br  
+              button(type="button" class="btn btn-secondary" data-dismiss="modal") Cancel
+              button(type="submit" class="btn btn-info" id="create") Create
