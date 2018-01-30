@@ -1,6 +1,10 @@
 'use strict';
+var $ = require('jquery');
+window.jQuery = $;
+require('bootstrap');
 
-jQuery.fn.shuffle = function () {
+
+$.fn.shuffle = function () {
     var j;
     for (var i = 0; i < this.length-1; i++) {
         j = Math.floor(Math.random() * this.length-1);
@@ -8,6 +12,7 @@ jQuery.fn.shuffle = function () {
     }
     return this;
 };
+
 function sort_div(a, b) {
     return ($(b).attr('id')) < ($(a).attr('id')) ? 1 : -1;
 }
