@@ -1,11 +1,9 @@
 'use strict';
 var $ = require('jquery');
 window.jQuery = $;
-require('bootstrap');
 require('chart.js');
 
-$(function()
-{
+$(document).ready(function() {
 var ctx= $("#myChart")[0].getContext('2d');
 
 function getRandomColor() {
@@ -16,6 +14,7 @@ function getRandomColor() {
   }
   return color;
 }
+  
 var colors = []
 for (var i = 0; i < Object.keys(pug_data).length; i++) {
   colors.unshift(getRandomColor())
@@ -52,7 +51,5 @@ var chart = new Chart(ctx, {
       }
 	}
 });
-  
-
 
 })
