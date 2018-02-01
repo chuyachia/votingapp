@@ -1,3 +1,4 @@
+'use strict';
 var InputHandler = require('./inputHandler.client.js');
 var $ = require('jquery');
 window.jQuery = $;

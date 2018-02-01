@@ -1,3 +1,4 @@
+'use strict';
 var InputHandler = require('./inputHandler.client.js');
 var deletePoll = require('./deletePoll.client.js');
 

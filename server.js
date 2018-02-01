@@ -20,8 +20,7 @@ db.once('open', function() {
   console.log('connected to db')
 });
 app.set('view engine', 'pug')
-app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
-app.use('/public', express.static(process.cwd() + '/public'));
+app.use('/', express.static(process.cwd() + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 

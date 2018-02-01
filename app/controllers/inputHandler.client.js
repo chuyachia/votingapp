@@ -23,6 +23,7 @@ function inputHandler(){
   this.removeEntry = function (e) {
     e.preventDefault();
     $(this).parents('.entry:first').remove();
+    i--;
     return false;
   }
   
