@@ -138,10 +138,11 @@ a,button {
 .glyphicon-align-justify {
   font-size: 30px;
   margin:5px;
+  color:white;
 }
 
 #containercanvas {
-  width:70%;
+  width:100%;
   padding-left: 0;
   padding-right: 0;
   margin-left: auto;

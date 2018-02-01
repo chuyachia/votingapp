@@ -47,7 +47,6 @@ function pollHandler(){
                 {$sort:{"totalvote":-1}}])
     .exec(function(err,result){
       if (err) throw err;
-      console.log(result)
       data['polls_arr'] = result
       res.render('index',data)   
     })
@@ -124,7 +123,7 @@ function pollHandler(){
     Users.findOneAndUpdate({'github.id':req.user.github.id},{$push:{polls:newpoll}},{new:true})
           .exec(function(err,result){
           if (err) throw err;
-          res.redirect('back')
+          res.redirect('/profile');
     })
 
   }
