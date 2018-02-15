@@ -3,6 +3,7 @@ html
   head
     script(src='/profile.min.js')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css")
     link(href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet")
     link(href="https://fonts.googleapis.com/css?family=Prata" rel="stylesheet")
     link(rel='stylesheet', href='/main.css')
@@ -10,20 +11,22 @@ html
     title= 'VotingApp - '+user+"'s Profile"
   body
     a(class='btn' href='/')
-      span(class="glyphicon glyphicon-home" aria-hidden="true")
-    div
-      div(class='col-sm-6  col-sm-offset-3 col-xs-10 col-xs-offset-1 container')
-        h3= 'Polls created by '+user
-          each url, title in polls_dict
-            div(class="input-group")
-              a(href='/poll/'+url class='menutext') 
-                h5(class='menutext')= title
-              span(class="input-group-btn")
-                a(class="btn delete" id=url)
-                  span(class="glyphicon glyphicon-remove" aria-hidden="true")
-        button(type= "button" class= "btn btn-default btn-lg btn-block greenbtn" data-toggle="modal" data-target="#pollmodal") 
-          span(class="glyphicon glyphicon-plus" aria-hidden="true")
-          span  Create a new poll
-        include components/modal.pug
+      span(class="glyphicon glyphicon-home iconblack iconlarge" aria-hidden="true")
+    div()
+      div(class='col-xs-8 col-xs-offset-2')
+        div(class='card')
+          h3= 'Polls created by '+user
+            each url, title in polls_dict
+              div(class="input-group")
+                a(href='/poll/'+url class='menutext') 
+                  h5(class='menutext')= title
+                span(class="input-group-btn")
+                  a(class="btn delete" id=url)
+                    span(class="glyphicon glyphicon-remove" aria-hidden="true")
+          button(type= "button" class= "btn btn-default btn-lg btn-block greenbtn" data-toggle="modal" data-target="#pollmodal") 
+            span(class="glyphicon glyphicon-plus" aria-hidden="true")
+            span  Create a new poll
+          include components/modal.pug
+      include components/footer.pug
 
    

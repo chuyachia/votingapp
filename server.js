@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 
 app.use(session({
-	secret: 'secretClementine',
+	secret: 'votingAppSecret',
 	resave: false,
 	saveUninitialized: true
 }));
