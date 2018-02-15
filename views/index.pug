@@ -2,6 +2,7 @@ html
   head
     script(src= '/index.min.js')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css")
     link(href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet")
     link(href="https://fonts.googleapis.com/css?family=Prata" rel="stylesheet")
     link(rel='stylesheet', href='/main.css')
@@ -10,16 +11,22 @@ html
     header The Voting App
       div(class="dropdown menu")
         button(class="btn dropdown-toggle" type="button" data-toggle="dropdown")
-          span(class="glyphicon glyphicon-align-justify")
+          span(class="glyphicon glyphicon-align-justify iconlarge iconwhite")
         ul(class="dropdown-menu dropdown-menu-right")
           if authorized
             li
-              a(href="/profile") Profile
+              a(href="/profile") 
+                span(class="glyphicon glyphicon-user" aria-hidden="true") 
+                span   Profile
             li
-              a(href="/logout") Logout
+              a(href="/logout")
+                span(class="glyphicon glyphicon-log-out" aria-hidden="true") 
+                span    Logout
           else
             li
-              a(href="/auth/github" ) Login with Github
+              a(href="/auth/github" )
+                span(class="glyphicon glyphicon-log-in" aria-hidden="true")
+                span    Login with Github
     div(class="content")
       h2= "Welcome, "+user
       div(class="row")
@@ -60,10 +67,8 @@ html
         div(class='col-sm-4 col-sm-offset-4 col-xs-12')
           a(role="button" class= "btn menutext showmore btn-default btn-lg btn-block whitebtn")
             span Show more
-          a(role="button" class= "btn menutext showless hidden btn-default btn-lg btn-block whitebtn")
+          a(role="button" class= "btn menutext hidden showless btn-default btn-lg btn-block whitebtn")
             span Show less
-      footer Made by 
-        a(href="https://github.com/chuyachia" target="_blank") Chu-Ya Chia
+      include components/footer.pug
 
- 
       include components/modal.pug
