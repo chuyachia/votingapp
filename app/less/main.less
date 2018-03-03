@@ -1,0 +1,171 @@
+@green:#3aafa9;
+@black:#17252a;
+@white:white;
+@grey: #888888;
+@red:#d9534f;
+
+body {
+  font-family: 'Prata';
+  position:relative;
+}
+
+h2, h3, h4, h5, a,button, label,form ,.note,header,footer {
+  font-family: 'Open Sans';
+}
+
+a {
+  text-decoration:none !important;
+}
+
+header{
+  background-color:@black;
+  color:@white;
+  padding-left:20px;
+  position:fixed;
+  top:0;
+  width:100%;
+  font-size:40px;
+  text-align:center; 
+  z-index:5;
+  .dropdown {
+    position:absolute;
+    right: 0;
+    display:inline-block;
+  }
+}
+
+
+#sort{
+  float:right
+}
+
+footer{
+  position:fixed;
+  bottom:0;
+  right:0;
+  text-align: right;
+  padding:10px;
+  a {
+      position:relative;
+      display:block;
+      margin:5px
+    }
+}
+
+.content{
+  padding:50px 50px 10px 50px;
+  min-height: 100%;
+  z-index:1;
+}
+
+.card {
+  box-shadow: 10px 10px 2px #888888;
+  border:1px solid rgb(204,204,204);
+  padding:10px;
+  width:100%;
+  background-color:white
+}
+
+.cardwrap {
+  height:80%;
+  display: flex; 
+  align-items: center; 
+}
+
+
+.dropdown-toggle{
+  background-color:@black;
+}
+
+.btn-default, .btn-default:focus{
+  background-color:@black;
+  color:@white;
+  border:1px solid @black;
+  &:hover, &:active{
+      background-color:@white!important;
+      color:@black;
+  }
+}
+.greenbtn, .greenbtn:focus{
+  background-color:@green;
+  border:1px solid darken(@green,10%);
+}
+
+.buttomrow {
+  .btn{
+      color:@black;
+      background-color:white;
+      margin-bottom:20px;
+      margin-top:20px !important;
+  }
+}
+
+.note {
+  font-size:12px
+}
+
+.polldisplay {
+  min-height:30%;
+  overflow:hidden;
+}
+
+#addpoll {
+  background-color:@green;
+  box-shadow: 10px 10px 2px @grey;
+  color:white;
+  padding-bottom:10px;
+  border:1px solid darken(@green,10%);
+  margin-bottom:10px
+}
+
+.crop {
+  overflow:hidden; 
+  white-space:nowrap; 
+  text-overflow:ellipsis; 
+}
+
+.entry{
+  margin-top:5px
+}
+
+.radio-inline, .radio {
+  margin-left:10px;
+  margin-bottom:5px  
+}
+
+.glyphicon{
+  font-size: 20px;
+}
+
+.glyphicon-remove {
+  color:@red;
+}
+
+.iconblack{
+  color:@black;
+}
+
+.iconlarge{
+  font-size: 30px;
+  margin:5px;
+}
+
+.iconwhite {
+  color:@white
+}
+
+#containercanvas {
+  width:90%;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+p#warning{
+  font-style: italic;
+}
+
+
+

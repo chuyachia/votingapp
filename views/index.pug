@@ -9,7 +9,7 @@ html
     title VotingApp - create a poll or cast a vote
   body
     header The Voting App
-      div(class="dropdown menu")
+      div(class="dropdown")
         button(class="btn dropdown-toggle" type="button" data-toggle="dropdown")
           span(class="glyphicon glyphicon-align-justify iconlarge iconwhite")
         ul(class="dropdown-menu dropdown-menu-right")
@@ -63,11 +63,11 @@ html
             button(type= "button" class= "btn btn-default btn-lg" id = 'unlogged')
               span(class="glyphicon glyphicon-plus" aria-hidden="true")
               span Add poll
-      div(class="row")
+      div(class="row buttomrow")
         div(class='col-sm-4 col-sm-offset-4 col-xs-12')
-          a(role="button" class= "btn menutext showmore btn-default btn-lg btn-block whitebtn")
+          a(role="button" class= "btn menutext showmore btn-default btn-lg btn-block")
             span Show more
-          a(role="button" class= "btn menutext hidden showless btn-default btn-lg btn-block whitebtn")
+          a(role="button" class= "btn menutext hidden showless btn-default btn-lg btn-block")
             span Show less
       include components/footer.pug
 
