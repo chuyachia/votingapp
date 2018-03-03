@@ -47,7 +47,7 @@ footer {
 footer a {
   position: relative;
   display: block;
-  margin: 5px;
+  margin-top: 5px;
 }
 .content {
   padding: 50px 50px 10px 50px;
