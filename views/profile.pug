@@ -18,7 +18,7 @@ html
           h3= 'Polls created by '+user
             each url, title in polls_dict
               div(class="input-group")
-                a(href='/poll/'+url class='menutext') 
+                a(href='/poll/'+url) 
                   h5(class='menutext')= title
                 span(class="input-group-btn")
                   a(class="btn delete" id=url)

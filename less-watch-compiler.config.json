@@ -1,0 +1,5 @@
+{
+    "watchFolder": "app/less",
+    "outputFolder": "public",
+    "mainFile": "main.less"
+}
