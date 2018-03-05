@@ -27,7 +27,7 @@ var chart = new Chart(ctx, {
         datasets: [{
             backgroundColor: colors,
             borderColor: '#ffffff',
-            data: Object.values(pug_data),
+            data: Object.keys(pug_data).map(function(key) {return pug_data[key];}),
         }]
     },
     options: {

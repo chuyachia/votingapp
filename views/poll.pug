@@ -1,23 +1,17 @@
 html
-head
-  script(type='text/javascript').                                                  
-    var pug_data =!{JSON.stringify(results)};   
-  script(src="/poll.min.js")
-  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
-  link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css")
-  link(href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet")
-  link(href="https://fonts.googleapis.com/css?family=Prata" rel="stylesheet")
-  link(rel='stylesheet', href='/main.css')
-  title= 'VotingApp - '+title
-
-body
-  a(class='btn' href='/')
-    span(class="glyphicon glyphicon-home iconblack iconlarge" aria-hidden="true")
-  if authorized
-    a(class='btn' href='/profile')
-      span(class="glyphicon glyphicon-user iconblack iconlarge" aria-hidden="true")
-  div(class='cardwrap')
-    div(class='col-xs-8 col-xs-offset-2')
+  head
+    script(type='text/javascript').                                                  
+      var pug_data =!{JSON.stringify(results)};   
+    script(src="/poll.min.js")
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css")
+    link(href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=Prata" rel="stylesheet")
+    link(rel='stylesheet', href='/main.css')
+    title= 'VotingApp - '+title
+  body
+    include components/navbtn.pug
+    div(class='col-xs-8 col-xs-offset-2 cardwrap')
       div(class='card')
         if state
           p(id="warning")= state
@@ -42,6 +36,6 @@ body
                 span    Share with friends
         div(id='containercanvas')
           canvas(id="myChart")
-    include components/footer.pug
+      include components/footer.pug
 
 
