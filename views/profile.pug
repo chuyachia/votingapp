@@ -10,23 +10,21 @@ html
 
     title= 'VotingApp - '+user+"'s Profile"
   body
-    a(class='btn' href='/')
-      span(class="glyphicon glyphicon-home iconblack iconlarge" aria-hidden="true")
-    div()
-      div(class='col-xs-8 col-xs-offset-2')
-        div(class='card')
-          h3= 'Polls created by '+user
-            each url, title in polls_dict
-              div(class="input-group")
-                a(href='/poll/'+url) 
-                  h5(class='menutext')= title
-                span(class="input-group-btn")
-                  a(class="btn delete" id=url)
-                    span(class="glyphicon glyphicon-remove" aria-hidden="true")
-          button(type= "button" class= "btn btn-default btn-lg btn-block greenbtn" data-toggle="modal" data-target="#pollmodal") 
-            span(class="glyphicon glyphicon-plus" aria-hidden="true")
-            span  Create a new poll
-          include components/modal.pug
+    include components/navbtn.pug
+    div(class='col-xs-8 col-xs-offset-2 cardwrap')
+      div(class='card')
+        h3= 'Polls created by '+user
+          each url, title in polls_dict
+            div(class="input-group")
+              a(href='/poll/'+url) 
+                h5(class='menutext')= title
+              span(class="input-group-btn")
+                a(class="btn delete" id=url)
+                  span(class="glyphicon glyphicon-remove" aria-hidden="true")
+        button(type= "button" class= "btn btn-default btn-lg btn-block greenbtn" data-toggle="modal" data-target="#pollmodal") 
+          span(class="glyphicon glyphicon-plus" aria-hidden="true")
+          span  Create a new poll
+        include components/modal.pug
       include components/footer.pug
 
    

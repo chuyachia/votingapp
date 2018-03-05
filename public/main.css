@@ -1,6 +1,8 @@
 body {
   font-family: 'Prata';
   position: relative;
+  display: flex;
+  flex-direction: row;
 }
 h2,
 h3,
@@ -12,7 +14,8 @@ label,
 form,
 .note,
 header,
-footer {
+footer,
+.navbtn {
   font-family: 'Open Sans';
 }
 a {
@@ -37,6 +40,11 @@ header .dropdown {
 #sort {
   float: right;
 }
+.horizstack {
+  position: relative;
+  display: block;
+  margin-top: 5px;
+}
 footer {
   position: fixed;
   bottom: 0;
@@ -45,6 +53,20 @@ footer {
   padding: 10px;
 }
 footer a {
+  position: relative;
+  display: block;
+  margin-top: 5px;
+}
+.navbtn {
+  background-color: #17252a;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  text-align: left;
+  padding: 10px;
+}
+.navbtn a {
   position: relative;
   display: block;
   margin-top: 5px;
@@ -62,12 +84,18 @@ footer a {
   background-color: white;
 }
 .cardwrap {
-  height: 80%;
-  display: flex;
+  min-height: 80vh;
   align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .dropdown-toggle {
   background-color: #17252a;
+}
+.btnwhite {
+  background-color: white !important;
+  color: #17252a;
 }
 .btn-default,
 .btn-default:focus {
@@ -88,8 +116,8 @@ footer a {
   border: 1px solid #2d8984;
 }
 .buttomrow .btn {
+  background-color: white !important;
   color: #17252a;
-  background-color: white;
   margin-bottom: 20px;
   margin-top: 20px !important;
 }
@@ -121,7 +149,7 @@ footer a {
   margin-left: 10px;
   margin-bottom: 5px;
 }
-.glyphicon {
+.input-group-btn .glyphicon {
   font-size: 20px;
 }
 .glyphicon-remove {
@@ -132,7 +160,6 @@ footer a {
 }
 .iconlarge {
   font-size: 30px;
-  margin: 5px;
 }
 .iconwhite {
   color: white;

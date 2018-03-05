@@ -1,0 +1,11 @@
+div(class='navbtn')
+  a(class='btn' href='/')
+    span(class="glyphicon glyphicon-home iconwhite iconlarge" aria-hidden="true")
+  if authorized
+    a(class='btn' href='/profile')
+      span(class="glyphicon glyphicon-user iconwhite iconlarge" aria-hidden="true")
+    a(class='btn' href="/logout")
+      span(class="glyphicon glyphicon-log-out iconwhite iconlarge" aria-hidden="true") 
+  else
+    a(class='btn' href="/auth/github" )
+      span(class="glyphicon glyphicon-log-in iconwhite iconlarge" aria-hidden="true")
