@@ -136,7 +136,8 @@ function pollHandler(){
         var polls_dict = {}
         result.polls.forEach(function(poll){polls_dict[poll.title]=poll._id})
         res.render('profile',{user:user,
-                             polls_dict:polls_dict})
+                             polls_dict:polls_dict,
+                             authorized:req.isAuthenticated()})
     })
   }
   
