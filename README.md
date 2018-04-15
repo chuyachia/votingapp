@@ -9,5 +9,5 @@ Live version
 * View engine: Pug
 * Database: MongoDB
 * Authentication: Passport
-* Front-end: Chart 
+* Front-end: Semantic ui, Chart 
 
