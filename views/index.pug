@@ -1,71 +1,60 @@
 mixin polldisplay(poll,index,hidden)
-  div(class=hidden?"col-sm-4 col-xs-12 polldisplay hidden":"col-sm-4 col-xs-12 polldisplay" id = index)
-    h3= poll.title
-    p(class="crop")= poll.description
-    a(role="button" class= "btn btn-default btn-lg" href="/poll/"+poll._id)
-      span(class="glyphicon glyphicon-search" aria-hidden="true")
-      span   View
-    p(class="note")= poll.totalvote+' people voted on this'
+    div(class=hidden?"ui card centered hidden":"ui card centered" id = index)
+      div(class="content")
+        div(class="header")=poll.title
+        div(class="description")= poll.description
+      div(class="extra content")
+        a(role="button" class= "ui button" href="/poll/"+poll._id)
+          i(class="icon search")
+          span   View
+        p(class="meta")= poll.totalvote+' people voted on this'
 
 html
   head
-    script(src= '/index.min.js')
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css')
-    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css")
-    link(href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet")
-    link(href="https://fonts.googleapis.com/css?family=Prata" rel="stylesheet")
-    link(rel='stylesheet', href='/main.css')
+    script(src= '/index.min.js' type="text/javascript")
+    script(src='/dist/semantic.min.js' type="text/javascript")
+    link(rel='stylesheet', href='/dist/semantic.min.css')
     title VotingApp - create a poll or cast a vote
   body
-    header The Voting App
-      div(class="dropdown")
-        button(class="btn dropdown-toggle" type="button" data-toggle="dropdown")
-          span(class="glyphicon glyphicon-align-justify iconlarge iconwhite")
-        ul(class="dropdown-menu dropdown-menu-right")
-          if authorized
-            li
-              a(href="/profile") 
-                span(class="glyphicon glyphicon-user" aria-hidden="true") 
-                span   Profile
-            li
-              a(href="/logout")
-                span(class="glyphicon glyphicon-log-out" aria-hidden="true") 
-                span    Logout
-          else
-            li
-              a(href="/auth/github" )
-                span(class="glyphicon glyphicon-log-in" aria-hidden="true")
-                span    Login with Github
-    div(class="content")
-      h2= "Welcome, "+user
-      div(class="row")
-        div(class="button dropdown note " id="sort") Sort by : 
-          select(id="sortselector")
-            option(value="trending" selected) Trending
-            option(value="random") Random
-      div(class= "row" id= "allpolls")
+    include components/navbar.pug
+    div(class="ui grid container")
+      include components/footer.pug
+      div(class="ui form")
+        div(class="inline fields")
+          label Sort by :
+          div(class="field")
+            div(class="ui radio checkbox")
+              input(type="radio" value="trending" name="sort" checked)
+              label Trending
+          div(class="field")
+            div(class="ui radio checkbox")
+              input(type="radio" value="random" name="sort" )
+              label Random                
+      div(class= "ui cards" id= "allpolls")
         each poll,index in polls_arr
           if index < 5
             +polldisplay( poll,index,false)
           else
             +polldisplay( poll,index,true)
-        div(class="col-sm-4 col-xs-12 polldisplay" id= "addpoll")
-          h3 Your poll here
-          p= message          
-          if authorized
-            button(type= "button" class= "btn btn-default btn-lg" data-toggle="modal" data-target="#pollmodal")
-              span(class="glyphicon glyphicon-plus" aria-hidden="true")
-              span Add poll
-          else       
-            button(type= "button" class= "btn btn-default btn-lg" id = 'unlogged')
-              span(class="glyphicon glyphicon-plus" aria-hidden="true")
-              span Add poll
-      div(class="row buttomrow")
-        div(class='col-sm-4 col-sm-offset-4 col-xs-12')
-          a(role="button" class= "btn menutext showmore btn-default btn-lg btn-block")
-            span Show more
-          a(role="button" class= "btn menutext hidden showless btn-default btn-lg btn-block")
-            span Show less
-      include components/footer.pug
+        div(class="ui card centered" id= "addpoll")
+          div(class="content")
+            div(class="header") Your poll here
+            div(class="description")= message
+          div(class="extra content")
+            if authorized
+              button(type= "button"  class= "ui button secondary" id="showmodal")
+                i(class="white plus icon")
+                span Add poll
+            else
+              a( href="/auth/github")
+                button(type= "button" role="button" class= "ui button secondary" id = 'unlogged')
+                  i(class="white plus icon")
+                  span Add poll
+      div(class="row")
+        button(class= "ui button fluid basic grey showmore")
+          span Show more
+        button(class= "ui button fluid basic grey showless hidden")
+          span Show less
+      
 
     include components/modal.pug

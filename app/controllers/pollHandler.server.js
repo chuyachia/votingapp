@@ -4,12 +4,10 @@ var Users = require(process.cwd()+'/app/models/users.js');
 
 function pollHandler(){
   
-  var populatePoll = function(req,res,result,state){
+  var populatePoll = function(req,res,result){
       var results_dict = {}
-      var state = state||null;
-      if (req.query.state == 'voted'&!state) {
-        state = 'You already voted on this one'
-      }
+      var state = req.query.state||null;
+
       result.polls[0].options.forEach(function(option){results_dict[option.optionname] = option.vote.length});
       res.render('poll',{ title: result.polls[0].title, message: result.polls[0].description, state:state,
                          action:'/poll/'+req.params.pollid,authorized:req.isAuthenticated(),
@@ -67,13 +65,13 @@ function pollHandler(){
     Users.findOne({polls:{$elemMatch:{_id:req.params.pollid,'options.vote':ip}}}) //
           .exec(function(err,result){
          if (err) throw err;
-         if (result) {res.redirect('/poll/'+req.params.pollid+'?state=voted')}  else {
+         if (result) {res.redirect('/poll/'+req.params.pollid+'?state=failed')}  else {
            return next();
          }
     })
   }
   
-  this.castVote = function(req,res,next){
+  this.castVote = function(req,res){
         var update = {}
         var ip = req.headers['x-forwarded-for'];
         ip = ip.split(',')[0];
@@ -87,11 +85,11 @@ function pollHandler(){
                     Users.findOneAndUpdate({'polls._id':req.params.pollid},{$push:{'polls.$.options':update}},{new:true})
                       .exec(function(err,result){
                           if (err) throw err;
-                          return next();
+                          res.redirect('/poll/'+req.params.pollid+'?state=success')
                         }) 
                   } 
                 else {
-                  return next();
+                  res.redirect('/poll/'+req.params.pollid+'?state=success')
                 }
               })
         } else {
@@ -99,23 +97,24 @@ function pollHandler(){
           Users.findOneAndUpdate({'polls._id':req.params.pollid},{$push:update},{ new: true })
               .exec(function(err,result){
               if (err) throw err;
-              return next();
+              res.redirect('/poll/'+req.params.pollid+'?state=success')
         })
         }
   }
   
   this.createPoll= function(req,res){
+    console.log(req.body)
     var newpoll = {}
     var options = []
-    Object.values(req.body).forEach(function(val,index) {
-      if (index==0) {
-        newpoll['title'] = val;
-      } else if (index==1) {
-        newpoll['description']= val
+    Object.keys(req.body).forEach(function(key) {
+      if (key=='pollTitle') {
+        newpoll['title'] = req.body[key];
+      } else if (key=='pollDescription') {
+        newpoll['description']=  req.body[key]
       } else {
         var existopts = options.map(function(x){return x.optionname});
-        if (existopts.indexOf(val)==-1) {
-        options.push({'optionname':val,'vote':[]})
+        if (existopts.indexOf(req.body[key])==-1) {
+        options.push({'optionname':req.body[key],'vote':[]})
           }
       }
     });

@@ -1,5 +1,5 @@
 'use strict';
-
+require('dotenv').config();
 module.exports = {
 	'githubAuth': {
 		'clientID': process.env.GITHUB_KEY,

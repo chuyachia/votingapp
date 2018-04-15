@@ -1,14 +1,17 @@
 'use strict';
 var InputHandler = require('./inputHandler.client.js');
 var deletePoll = require('./deletePoll.client.js');
+var modalHandler = require('./modalHandler.client.js');
+
 
 var $ = require('jquery');
 window.jQuery = $;
 
 $(document).ready(function(){
-  var inputHandler = new InputHandler();
-  $(document).on('click','.btn-add', inputHandler.addEntry)
-  .on('click', '.btn-remove', inputHandler.removeEntry);
+  modalHandler();
+  
+  $('.ui.dropdown')
+  .dropdown();
   
   $(".delete").on('click',deletePoll)
   

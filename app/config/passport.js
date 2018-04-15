@@ -1,5 +1,5 @@
 'use strict';
-
+require('dotenv').config();
 const GitHubStrategy = require('passport-github').Strategy,
       configAuth = require(process.cwd()+'/app/config/auth.js');
 

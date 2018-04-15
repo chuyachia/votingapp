@@ -1,0 +1,17 @@
+div(class="ui menu inverted fixed")
+  a(class="ui medium header item" href="/") The Voting App
+  div(class="ui item dropdown right") Menu
+    i(class="dropdown icon")
+    div(class="menu")
+      if authorized
+        a(class="item" href="/profile") 
+          i(class="user outline icon")
+          span(class="text") Profile
+        a(class="item" href="/logout") 
+          i(class="sign out alternate icon")
+          span(class="text") Log out
+      else
+        a(class="item" href="/auth/github")
+          i(class="sign in alternate icon")
+          span(class="text") Log in with Github
+

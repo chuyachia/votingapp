@@ -18,7 +18,7 @@ module.exports = function(app,passport){
 
   app.route('/poll/:pollid')
       .get(pollHandler.getPollDetails)
-      .post(pollHandler.checkIP,pollHandler.castVote,pollHandler.getPollDetails);
+      .post(pollHandler.checkIP,pollHandler.castVote);
   
 
   app.route('/auth/github')

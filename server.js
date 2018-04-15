@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 const express = require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
@@ -11,7 +12,7 @@ const app = express(),
 
 require(process.cwd()+'/app/config/passport.js')(passport);
 
-mongoose.connect('mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB,
+mongoose.connect('mongodb://'+process.env.DB_USER+':'+process.env.DB_PASS+'@'+process.env.DB_HOST+':'+process.env.DB_PORT+'/'+process.env.DB,
                 { useMongoClient: true});
 
 var db = mongoose.connection;
@@ -19,8 +20,11 @@ db.on('error',console.error.bind(console, 'connection error:'))
 db.once('open', function() {
   console.log('connected to db')
 });
+
 app.set('view engine', 'pug')
 app.use('/', express.static(process.cwd() + '/public'));
+app.use('/', express.static(process.cwd() + '/semantic'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 
@@ -36,6 +40,7 @@ app.use(passport.session());
 routes(app,passport)
 
 
-var listener = app.listen('3000', function () {
-  console.log('Your app is listening on port ' + listener.address().port);
+app.listen('8080',function(){
+    console.log('Node.js listening on port 8080');
 });
+

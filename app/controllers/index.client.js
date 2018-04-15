@@ -1,7 +1,8 @@
 'use strict';
-var InputHandler = require('./inputHandler.client.js');
+var modalHandler = require('./modalHandler.client.js');
 var $ = require('jquery');
 window.jQuery = $;
+
 
 $.fn.shuffle = function () {
     var j;
@@ -18,22 +19,25 @@ function sort_div(a, b) {
 
 
 $(document).ready(function(){
-  var inputHandler = new InputHandler();
-  
-  $(document).on('click','.btn-add', inputHandler.addEntry)
-  .on('click', '.btn-remove', inputHandler.removeEntry);
+    modalHandler();
+    
+    $('.ui.dropdown')
+        .dropdown();
+    
+    $('.ui.checkbox').checkbox({ 
+        onChecked: function() {
+            if($('.ui.checkbox input:checked').val()=="random"){
+                $('#allpolls .card').shuffle();
+            } else {
+                $('#allpolls .card').sort(sort_div).appendTo('#allpolls');
+            }
+        }
+    });
   
    $('#unlogged').on('click',function(){
      alert('Please login first')
    })
-   $("#sortselector").on('change',function(){
-     if ($("#sortselector option:selected").val()=='random') {
-        $('#allpolls div').shuffle();
-     }
-     else {
-        $('#allpolls div').sort(sort_div).appendTo('#allpolls');
-     }
-   })
+
   $(".showmore").on('click',function(){
     $("#allpolls").children().removeClass("hidden");
     $(this).addClass('hidden');

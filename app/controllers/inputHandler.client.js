@@ -1,7 +1,6 @@
 'use strict';
 var $ = require('jquery');
 window.jQuery = $;
-require('bootstrap');
 
 function inputHandler(){
   var i=2;
@@ -9,21 +8,19 @@ function inputHandler(){
   
   this.addEntry = function (e){
     e.preventDefault();
-    var currentEntry = $(this).parents('.entry:first'),
+    var currentEntry = $(this).parents('.input:first'),
     newEntry = $(currentEntry.clone()).insertAfter(currentEntry);
     newEntry.find('input').val('');
-    newEntry.find('input').attr({name:'option'+i}); // use of naming option+i here?
+    newEntry.find('input').attr({name:'option'+i});
     i++;
-    $form.find('.entry:not(:last) .btn-add')
-      .removeClass('btn-add').addClass('btn-remove')
-      .removeClass('btn-success').addClass('btn-danger')
-      .html('<span class="glyphicon glyphicon-minus"></span>')
+    $form.find('.input:not(:last) .positive')
+      .removeClass('positive').addClass('negative')
+      .html('<i class="icon minus"></span>')
   }
   
   this.removeEntry = function (e) {
     e.preventDefault();
-    $(this).parents('.entry:first').remove();
-    i--;
+    $(this).parents('.input:first').remove();
     return false;
   }
   

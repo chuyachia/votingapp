@@ -1,23 +1,19 @@
-div(class="modal fade" id="pollmodal" tabindex="-1" role="dialog" aria-hidden="true")
-  div(class="modal-dialog" role="document")
-    div(class="modal-content")
-      div(class="modal-header")
-        h5(class="modal-title") New poll
-      div(class="modal-body")
-        form(id ='createpoll' action = '/newpoll' method = 'post')
-          div(class="form-group")
-            label(for="pollTitle" class="col-form-label") Title:
-            input(type="text" class="form-control" name="pollTitle" maxlength="50" required)
-          div(class="form-group")
-            label(for="pollDescription" class="col-form-label" ) Description:
-            textarea(class="form-control" name="pollDescription" maxlength="300" required)
-          label(for="option1" class="control-label") Options:
-          div(class="entry input-group")
-            input(class="form-control" name="option1" type="text" maxlength="30" required)
-            span(class="input-group-btn")
-              button(class="btn btn-success btn-add" type="button")
-                span(class="glyphicon glyphicon-plus" aria-hidden="true")
-          br
-          div(class="btn-toolbar")
-            button(type="button" class="btn btn-secondary" data-dismiss="modal") Cancel
-            button(type="submit" class="btn btn-info" id="create") Create
+div(class="ui modal" id="pollmodal")
+  i(class="close icon")
+  div(class="header") New poll
+  div(class="content")
+    form(class="ui form" id ='createpoll' action = '/newpoll' method = 'post')
+      div(class="field")
+        label Title
+        input(type="text" name="pollTitle" maxlength="50" required)
+      div(class="field")
+        label Description
+        input(type="text" name="pollDescription" maxlength="300" required)
+      div(class="field")
+        label Options
+        div(class="ui action input")
+          input( type="text" name="option1" maxlength="30" required)
+          button(class="ui icon button positive")
+            i(class="plus icon")
+      button(class="ui  button grey" type="submit") Create
+        
