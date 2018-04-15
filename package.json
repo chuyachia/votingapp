@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "start-dev": "NODE_ENV=development webpack -w & NODE_ENV=development nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack -p"
   },
   "dependencies": {
     "body-parser": "1.18.2",
