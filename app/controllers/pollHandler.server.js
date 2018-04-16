@@ -51,12 +51,22 @@ function pollHandler(){
   }
   
   
-  this.getPollDetails = function(req,res){  
-   Users.findOne({'polls._id':req.params.pollid},{'polls.$':1})
-          .exec(function(err,result){
-          if (err) throw err;
-          populatePoll(req,res,result)
-    })
+  this.getPollDetails = function(req,res){
+    if (req.params.pollid.match(/^[0-9a-fA-F]{24}$/)){
+     Users.findOne({'polls._id':req.params.pollid},{'polls.$':1})
+            .exec(function(err,result){
+            if (err) throw err;
+            if(!result){
+              res.status(404);
+              res.render('notfound');
+            } else{
+              populatePoll(req,res,result)
+            }
+      })
+    } else {
+      res.status(404);
+      res.render('notfound');
+    }
   }
   
   this.checkIP = function(req,res,next){

@@ -45,5 +45,10 @@ module.exports = function(app,passport){
   
   app.route('/delete')
     .post(isLoggedIn,pollHandler.deleteOwnPoll);
+  
+  app.use(function(req, res, next){
+    res.status(404);
+    res.render('notfound');
+  });
 
 };
