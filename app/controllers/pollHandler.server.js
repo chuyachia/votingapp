@@ -58,14 +58,14 @@ function pollHandler(){
             if (err) throw err;
             if(!result){
               res.status(404);
-              res.render('notfound');
+              res.render('notfound',{authorized:req.isAuthenticated()});
             } else{
               populatePoll(req,res,result)
             }
       })
     } else {
       res.status(404);
-      res.render('notfound');
+      res.render('notfound',{authorized:req.isAuthenticated()});
     }
   }
   

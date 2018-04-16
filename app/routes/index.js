@@ -48,7 +48,7 @@ module.exports = function(app,passport){
   
   app.use(function(req, res, next){
     res.status(404);
-    res.render('notfound');
+    res.render('notfound',{authorized:req.isAuthenticated()});
   });
 
 };
