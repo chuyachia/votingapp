@@ -5,11 +5,10 @@ var Users = require(process.cwd()+'/app/models/users.js');
 function pollHandler(){
   
   var populatePoll = function(req,res,result){
+      var flash = res.locals.flash||{status:null,message:''};
       var results_dict = {}
-      var state = req.query.state||null;
-
       result.polls[0].options.forEach(function(option){results_dict[option.optionname] = option.vote.length});
-      res.render('poll',{ title: result.polls[0].title, message: result.polls[0].description, state:state,
+      res.render('poll',{ title: result.polls[0].title, message: result.polls[0].description, flash:flash,
                          action:'/poll/'+req.params.pollid,authorized:req.isAuthenticated(),
                          options:result.polls[0].options.map(function(x){return x.optionname;}),
                         results:results_dict})
@@ -60,6 +59,7 @@ function pollHandler(){
               res.status(404);
               res.render('notfound',{authorized:req.isAuthenticated()});
             } else{
+              
               populatePoll(req,res,result)
             }
       })
@@ -72,10 +72,13 @@ function pollHandler(){
   this.checkIP = function(req,res,next){
     var ip = req.headers['x-forwarded-for'];
     ip = ip.split(',')[0];
-    Users.findOne({polls:{$elemMatch:{_id:req.params.pollid,'options.vote':ip}}}) //
+    Users.findOne({polls:{$elemMatch:{_id:req.params.pollid,'options.vote':ip}}}) 
           .exec(function(err,result){
          if (err) throw err;
-         if (result) {res.redirect('/poll/'+req.params.pollid+'?state=failed')}  else {
+         if (result) {
+            req.session.flash = {status:'failed',message:'You already voted on this one'};
+            res.redirect(303,'/poll/'+req.params.pollid)
+         }  else {
            return next();
          }
     })
@@ -95,11 +98,13 @@ function pollHandler(){
                     Users.findOneAndUpdate({'polls._id':req.params.pollid},{$push:{'polls.$.options':update}},{new:true})
                       .exec(function(err,result){
                           if (err) throw err;
-                          res.redirect('/poll/'+req.params.pollid+'?state=success')
+                          req.session.flash = {status:'success',message:'Congrats! You just casted your vote'};
+                          res.redirect(303,'/poll/'+req.params.pollid)
                         }) 
                   } 
                 else {
-                  res.redirect('/poll/'+req.params.pollid+'?state=success')
+                  req.session.flash = {status:'success',message:'Congrats! You just casted your vote'};
+                  res.redirect(303,'/poll/'+req.params.pollid)
                 }
               })
         } else {
@@ -107,13 +112,13 @@ function pollHandler(){
           Users.findOneAndUpdate({'polls._id':req.params.pollid},{$push:update},{ new: true })
               .exec(function(err,result){
               if (err) throw err;
-              res.redirect('/poll/'+req.params.pollid+'?state=success')
+              req.session.flash = {status:'success',message:'Congrats! You just casted your vote'};
+              res.redirect(303,'/poll/'+req.params.pollid)
         })
         }
   }
   
   this.createPoll= function(req,res){
-    console.log(req.body)
     var newpoll = {}
     var options = []
     Object.keys(req.body).forEach(function(key) {
@@ -129,10 +134,20 @@ function pollHandler(){
       }
     });
     newpoll['options'] = options
-    Users.findOneAndUpdate({'github.id':req.user.github.id},{$push:{polls:newpoll}},{new:true})
-          .exec(function(err,result){
+    Users.findOneAndUpdate(
+      {'github.id':req.user.github.id},
+      {$push:{polls:newpoll}},
+      {new:true,
+        "projection":{
+            polls:{
+              "$elemMatch":{title:newpoll['title']}
+            }
+        }
+      }
+  
+      ).exec(function(err,result){
           if (err) throw err;
-          res.redirect('/profile');
+          res.redirect(303,'/poll/'+result.polls[0]._id);
     })
 
   }
@@ -154,7 +169,7 @@ function pollHandler(){
    Users.findOneAndUpdate({'github.id':req.user.github.id}, { $pull: { polls: { _id: req.body.pollid} }},{new:true})
         .exec(function(err,result){
          if (err) throw err;
-           res.json('Deleted')
+           res.redirect(303,'/profile');
       })
   }
 

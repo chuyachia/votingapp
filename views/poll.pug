@@ -12,16 +12,16 @@ html
       include components/footer.pug
       div(class='ui card fluid')
         div(class="content")
-          if state == 'failed'
+          if flash.status == 'failed'
             div(class="ui negative  message transition")
               i(class="close icon")
               div(class="header") Vote failed
-              p You already voted on this one
-          if state == 'success'
+              p= flash.message
+          if flash.status == 'success'
             div(class="ui success   message transition")
               i(class="close icon")
               div(class="header") Successfully voted
-              p Congrats! You just casted your vote
+              p=flash.message
           div(class="header")= title
           div(class="description")= message
           form(class="ui form" id ='submitvote' action = action method = 'post')
