@@ -27,7 +27,6 @@ app.use('/', express.static(process.cwd() + '/semantic'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
-
 app.use(session({
 	secret: 'votingAppSecret',
 	resave: false,
