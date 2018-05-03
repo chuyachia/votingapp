@@ -1,6 +1,7 @@
 'use strict'
 
-var PollHandler = require(process.cwd()+ '/app/controllers/pollHandler.server.js');
+var PollHandler = require(process.cwd()+ '/app/controllers/pollHandler.server.js'),
+  configAuth = require(process.cwd()+'/app/config/auth.js');
 
 module.exports = function(app,passport){
   var pollHandler = new PollHandler();
@@ -27,14 +28,18 @@ module.exports = function(app,passport){
   
 
   app.route('/auth/github')
-  .get(passport.authenticate('github'));
+  .get(function(req,res,next){
+    passport.authenticate('github',{
+      callbackURL: configAuth.githubAuth.callbackURL+"?redirect=" +encodeURIComponent(req.query.curpath)
+    })(req,res,next);
+    
+  });
   
   
   app.route('/auth/github/callback')
-	.get(passport.authenticate('github', {
-		successRedirect: '/',
-		failureRedirect: '/' 
-	}));
+	.get(function(req,res,next){
+	  passport.authenticate('github', {failureRedirect: '/',successRedirect:req.query.redirect})(req,res,next);
+	});
   
   app.route('/logout')
   .get(function (req, res) {

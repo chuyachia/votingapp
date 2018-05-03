@@ -11,7 +11,7 @@ function pollHandler(){
       res.render('poll',{ title: result.polls[0].title, message: result.polls[0].description, flash:flash,
                          action:'/poll/'+req.params.pollid,authorized:req.isAuthenticated(),
                          options:result.polls[0].options.map(function(x){return x.optionname;}),
-                        results:results_dict})
+                        results:results_dict,path:req.originalUrl})
   }
   
   var shuffleArray = function(array) {
@@ -35,6 +35,7 @@ function pollHandler(){
       data['message'] ="Login and create your own poll"
     }
     data['polls_arr'] = []
+    data['path'] = req.originalUrl;
     Users.aggregate([{$unwind:'$polls'},{$unwind:'$polls.options'},
                 {$project:{"polls._id":1,'polls.title':1,'polls.description':1,'polls._id':1,
                            votecount:{$size:"$polls.options.vote"}}},
